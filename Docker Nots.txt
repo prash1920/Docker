@@ -1,0 +1,130 @@
+Docker Command:
+docker pull imagename
+docker push
+docker images
+docker rmi imagename --> delete image
+docker commit containername imagename --> create image form container
+docker built -t imagename dockerfile -->build image form docker file
+docker prune -a ----> do delete all unused images
+docker start containername
+docker stop containername
+docker restart containername
+docker restart -t 10 container -->restart after 10 sec
+docker rm -f containername
+docker stop $(docker ps -aq)
+docker rm $(docker ps -aq)
+docker rm -f(docker ps -aq)
+docker container ls
+docker ps -a
+docker port containername---> all the port used by container
+docker logs containername
+docker inspect containername
+docker attach containername--> to move inside docker in background
+docker exec -it containerame command --> run command inside container form outside container
+docker exec -it containername bash
+docker run imagename -----
+-name -->to name of container
+-it -->opening in terminal
+-d --> run in detached mode
+-e --> passing env variable
+-v -->attach volume
+-volume-from -->share vol bw container
+-p --> port mapping 8080:80
+-P --> automatic port mapping
+-rm --> delete container on exit
+-cpus --> assing cpu to container
+-mem --> use to allocate memory 
+Docker Networking-----------
+docker network ls
+docker nework inspect networkname
+docker network rm networkname
+docker network create -driver type networkname
+docker network connect networkname containername
+docker network disconnect networkname containername
+Docker Volume---------------
+docker volume ls
+docker volume create volumename
+docker volume rm volumename
+docker volume inspect volnamename
+Database Container----------------
+we have to set the password of the database so passing it through env
+docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=kishan mysql:5
+docker exec -it mydb bash--->to login into db container
+mysql -u root -p ---> then enter the password 'kishan'
+
+--link argument is used to link the containers so that they can communicate with each other.
+Comand to run wordpress container linking with sql db.
+docker run --name mywp -d -p 8080:80 --link mydb:mysqldb wordpress
+
+How to setup Lamp--------
+LAMP: is nothing but the an envoirment which is containing linux,apache,mysql & php.
+To setup this create the container of all the envoirment and link with each other.
+Steps to create LAMP envoirment:
+docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=kishan mysql:5
+docker run --name apache -d -p 8080:80 --link mydb:mysqldb httpd
+docker run --name myphp -d --link mydb:mysqldb --link apache:myapache php:7.2
+docker exec -it myphp bash
+php --version
+
+Docker Compose---------------------------------------------------------------------------
+Compose is a tool for defining and running multi-container Docker applications. 
+With Compose, you use a YAML file to configure your application's services. 
+Then, with a single command, you create and start all the services from your configuration.
+
+Sample Yml file for wordpress with sql container:
+create docker-compose.yml file.
+---
+version: '3'
+services:
+    mydb: 
+       image: mysql:5
+       env: 
+         MYSQL_ROOT_PASSWORD: kishan
+    mywp:
+       image: wordpress
+       ports:
+          - 8080:80
+       links:
+          - mydb:mysqldb
+
+Docker-compose commands-----------
+docker-compose config ---> to check the syntex for yml file
+docker-compose up -d --> to create service
+docker-compose stop
+
+--------------------------------------------------------------------
+How to create custom image:
+there are two way to create custom image.
+1. docker commit containername imagename
+by this command creating image of the running container.
+2. docker file
+Its a text file which is used to create custome images.
+
+Impotent keyword in Dockerfile:
+
+FROM: used to specify base image
+MAINTAINER: specify name of authore
+ENTRYPOINT: used to specify process that should run when container start
+COPY: copy file form dockerhost to container
+RUN: it is user to install software inside container
+CMD: used to run the command in container shell while creating.
+ADD: same to copy also used to copy form remote host
+EXPOSE: use to open ports
+VOLUME: used to attach volume
+LABLE: give name to container
+WORKDIR: specify default working dir inside container
+
+doker build -it imagename pathofdockerfile
+
+dockerfile examples.
+FROM centos
+LABLE kishan
+CMD ["date"]
+CMD ["ls","-la"]
+
+Docker Networking----------------------------------
+type:
+1.bridge
+2.host
+3.null
+
