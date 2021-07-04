@@ -1,0 +1,99 @@
+docker start containerid
+docker stop containerid
+docker restart containerid
+docker restart -t 10 containerid
+docker stop $(docker ps -aq)
+docker rm $(docker ps  -aq)
+docker rm -f $(docker ps -aq)
+docker pull imagename
+docker push imagename
+docker images
+docker rmi images
+docker search images
+docker commit containername
+docker build -t dockerimagename
+docker ps -a
+docker port containerid
+docker logs containerid
+docker inspect containerid
+docker attach containerid
+docker exec -it containerid bash
+docker run --name container1 -it centos
+
+
+docker run centos--->will create the container but not run
+docker run -itd centos--->will create container & run in backend
+docker run -it centos---> will create container & login into container
+
+docker start -i containername
+
+
+docker run --name mydb -d -e MYSQL_ROOT_PASSWORD=12345 mysql
+docker exec -it mydb bash
+
+----------------------------------------------------------------------
+
+Dockerfile:
+
+FROM nginx
+MAINTAINER kishan
+
+docker build -t myimage . --->command to create image from dockerfile
+----------------------------------------------------------
+
+FROM centos
+MAINTAINER kishan
+LABEL dev="prod"
+RUN yum update -y
+RUN yum install git -y
+
+-----------------------------------------------------------
+
+Cache Busting
+
+FROM centos
+LABEL dev="prod"
+RUN yum update -y && yum install -y git maven
+CMD ["date"]
+CMD ["ls","-la"]
+
+-------------------------------------------------------------
+
+Docker Volume:
+
+1.volume
+2.bind mount
+
+Method:
+docker run --mount -source=myvol, destination=/devops ubuntu
+
+this command will create a volume myvol in /var/lib/docker/volune
+
+docker run -v /devops ubuntu
+
+this command will create the random volume in /var/lib/docker and will
+map this volume with devops dir inside the container.
+
+Docker volume:
+It is managed by docker.
+docker run -itd --mount source=mydb,destination=/kishan ubuntu-->this command will create the container & create the kishan dir inside the container
+and will mount this dir with /var/lib/docker/volume/mydb volume.
+Note: if myvol volume doesnot exist it command will create it. if exist this command will map it.
+
+Note:
+let suppose mydb docker vol is attached with the conatiner,and if we delete the the container
+mydb vol will not be created. we have to delete it mannually.
+
+command to delete docker volume:
+docker volume rm  mydb
+
+docker run -itd -v /kishan --name kishan ubuntu---> it will create the container & it will create the kishan dir inside the container & will create the random vol
+inside the /var/lib/docker/random_vol
+
+Bind mount:
+means a file or dir on the host machine is mounted into a conatiner.
+
+command to create the bind mount volume:
+docker run -it --name kishan -v /$(pwd):/shah ubuntu --->it will create the container & will mount the present working dir with shah folder inside the container.
+
+
