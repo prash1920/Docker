@@ -1,0 +1,91 @@
+Git:
+
+1.what is git conflict & how to resolve it.
+
+when we merge two different branches haveing the same name file but total diff content then conflict occure.
+actually git get confused which data have to place above & which data have to place lower.
+
+how to resolve it.
+just open the file and do some edit and save the file.
+
+
+
+2.diff b/w entrypoint & command
+Lets create a  dockerfile
+FROM ubuntu
+CMD echo "hi docker"
+
+docker build -t app .
+docker run -it app
+
+hi docker
+
+If we want pass the arrgument at run time then it will replace the cmd comand in dockerfile.
+docker run -it app echo "hi aws"
+
+hi aws
+
+So conclusion is CMD command can be replaced with creating the container with passing CMD arrgument.
+
+
+Question> can we use multiple CMD command in dockerfile:
+
+eg. vi dockerfile
+
+FROM ubuntu
+CMD echo "hi aws"
+CMD echo "hi python"
+
+docker build -t app .
+docker run -it app 
+
+hi python
+
+Now we can see the first CMD command is ignord & last command is run.
+
+-------------------------------------------------------------------------------------------------------------
+
+FROM ubuntu
+ENTRYPOINT ["echo","Hi docker"]
+docker build - t app .
+
+docker run -it app 
+
+Hi docker
+
+If we pass the arrgument at run time
+
+docker run -it app echo "Hi python"
+
+Hi docker echo Hi python
+
+Here we can see, entrypoint command is not replaced it get appended.
+
+So CMD & ENTRYPOINT both ae used to execute some process at container run time.
+cmd command can be replaced but entrypint point command can not. it can be appended.
+
+
+3.git fetch vs pull.
+
+git fetch bascially fetch the latest updates from remote repo to local repo it donot mearge with working area.
+git pull fetch the latest update & merage with the working area.
+git pull = fetch + merage
+
+---------------------------------------------------------------------------------------------------------------------
+
+Diff b/w git reset & git revert
+
+git reset: when we add the code in stageing area then we want to push back it in working are then we use git reset
+
+git revert: if we add the commit the code and then we push back in working area then we use git revert, once we revert it, it creates a new commit.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Instance Launch Type:
+
+On-demand: shot  workload costing in sec
+Reserve: reserve b/w 1-3 yr
+schdeule-instance: This is similar to reserved instances in that you reserve them between 1 to 3 years. However, with scheduled reserved instances you also must define the time of day, week, or month you want the instance to be available. If you need the instance to only be available between 1:00 PM and 4:00 PM on Tuesdays, then that is the only time the instance will be available to you.
+spot-instance: Spot instances are unused EC2 capacity that you bid on when they become available. They are the cheapest of the available launch types. 
+dedicated-host: Dedicated hosts allow you to book an entire physical server and control the placement of the instance. You will gain full visibility into the underlying sockets and cores.
+
