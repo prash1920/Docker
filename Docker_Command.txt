@@ -96,4 +96,14 @@ means a file or dir on the host machine is mounted into a conatiner.
 command to create the bind mount volume:
 docker run -it --name kishan -v /$(pwd):/shah ubuntu --->it will create the container & will mount the present working dir with shah folder inside the container.
 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Docker Layer:
+
+As we know docker is the layerd archetector so in dockerfile each line is consider as layer.
+
+If we want check the layer we use docker history command.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
